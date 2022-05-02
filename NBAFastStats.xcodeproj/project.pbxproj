@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9C6DC5052817482F00224387 /* GameDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6DC5042817482F00224387 /* GameDetailsViewController.swift */; };
+		9C6DC507281757DB00224387 /* GamesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6DC506281757DB00224387 /* GamesViewController.swift */; };
+		9C6DC509281C8B2100224387 /* SettingsPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6DC508281C8B2000224387 /* SettingsPickerViewController.swift */; };
+		9C9F9EF428138C20004026AD /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9F9EF328138C20004026AD /* SettingsViewController.swift */; };
 		9CE8B20327FA562700176E69 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE8B20227FA562700176E69 /* AppDelegate.swift */; };
 		9CE8B20527FA562700176E69 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE8B20427FA562700176E69 /* SceneDelegate.swift */; };
 		9CE8B20727FA562700176E69 /* StandingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE8B20627FA562700176E69 /* StandingsViewController.swift */; };
@@ -17,7 +21,6 @@
 		9CE8B22427FA563E00176E69 /* NBAFastStatsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE8B22327FA563E00176E69 /* NBAFastStatsUITests.swift */; };
 		9CE8B22627FA563E00176E69 /* NBAFastStatsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE8B22527FA563E00176E69 /* NBAFastStatsUITestsLaunchTests.swift */; };
 		9CFF49DB2804FDFA0058CFB1 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CFF49DA2804FDFA0058CFB1 /* Models.swift */; };
-		9CFF49DD28062ACA0058CFB1 /* GamesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CFF49DC28062AC70058CFB1 /* GamesTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +41,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9C6DC5042817482F00224387 /* GameDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDetailsViewController.swift; sourceTree = "<group>"; };
+		9C6DC506281757DB00224387 /* GamesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamesViewController.swift; sourceTree = "<group>"; };
+		9C6DC508281C8B2000224387 /* SettingsPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPickerViewController.swift; sourceTree = "<group>"; };
+		9C9F9EF328138C20004026AD /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		9CE8B1FF27FA562700176E69 /* NBAFastStats.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NBAFastStats.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CE8B20227FA562700176E69 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9CE8B20427FA562700176E69 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -52,7 +59,6 @@
 		9CE8B22327FA563E00176E69 /* NBAFastStatsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NBAFastStatsUITests.swift; sourceTree = "<group>"; };
 		9CE8B22527FA563E00176E69 /* NBAFastStatsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NBAFastStatsUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		9CFF49DA2804FDFA0058CFB1 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
-		9CFF49DC28062AC70058CFB1 /* GamesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamesTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,8 +112,11 @@
 				9CE8B20227FA562700176E69 /* AppDelegate.swift */,
 				9CE8B20427FA562700176E69 /* SceneDelegate.swift */,
 				9CE8B20627FA562700176E69 /* StandingsViewController.swift */,
-				9CFF49DC28062AC70058CFB1 /* GamesTableViewController.swift */,
+				9C6DC506281757DB00224387 /* GamesViewController.swift */,
 				9CE8B20827FA562700176E69 /* Main.storyboard */,
+				9C6DC5042817482F00224387 /* GameDetailsViewController.swift */,
+				9C9F9EF328138C20004026AD /* SettingsViewController.swift */,
+				9C6DC508281C8B2000224387 /* SettingsPickerViewController.swift */,
 				9CFF49DA2804FDFA0058CFB1 /* Models.swift */,
 				9CE8B20B27FA563D00176E69 /* Assets.xcassets */,
 				9CE8B20D27FA563D00176E69 /* LaunchScreen.storyboard */,
@@ -264,11 +273,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C6DC507281757DB00224387 /* GamesViewController.swift in Sources */,
 				9CE8B20727FA562700176E69 /* StandingsViewController.swift in Sources */,
+				9C6DC5052817482F00224387 /* GameDetailsViewController.swift in Sources */,
 				9CE8B20327FA562700176E69 /* AppDelegate.swift in Sources */,
 				9CE8B20527FA562700176E69 /* SceneDelegate.swift in Sources */,
-				9CFF49DD28062ACA0058CFB1 /* GamesTableViewController.swift in Sources */,
 				9CFF49DB2804FDFA0058CFB1 /* Models.swift in Sources */,
+				9C9F9EF428138C20004026AD /* SettingsViewController.swift in Sources */,
+				9C6DC509281C8B2100224387 /* SettingsPickerViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

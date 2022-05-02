@@ -17,19 +17,20 @@ class Stats{
     
     @Published var conferenceselected = "Eastern"
     @Published var standingTeamlogoURL = ""
+    @Published var currentDate = ""
+    @Published var ifanygames = false
+    var chosenteam = "MIA"
     
     struct ReturnedGames: Codable{
-        var AwayTeam: String
-        var HomeTeam: String
-        var AwayTeamScore: Int
-        var HomeTeamScore: Int
-        var Quarters: Quarters// we see
+        var AwayTeam: String?
+        var HomeTeam: String?
+        var AwayTeamScore: Int?
+        var HomeTeamScore: Int?
+        var GlobalGameID: Int?
+        var TimeRemainingMinutes: Int?
+        var TimeRemainingSeconds: Int?
+        var Status: String?
     }
-    
-    struct Quarters: Codable{
-        
-    }
-    
     
     struct Returned: Codable{
         var TeamID: Int
@@ -47,19 +48,40 @@ class Stats{
         var WikipediaLogoUrl: String
     }
     
-//    var baseURL = "https://api.sportsdata.io/v3/nba/scores/json/"?key=5e6b9e63f405447dae1e7e39bbb02b3a"
-//    var APIKey = "5e6b9e63f405447dae1e7e39bbb02b3a"
+    struct Players: Decodable{
+        var FirstName: String
+        var LastName: String
+        var PhotoUrl: String
+        var Position: String
+        var Jersey: Int
+        //
+        
+    }
     
+    struct Teamslogo: Decodable{
+        var TeamID: Int
+        var Key: String
+        var City: String
+        var Name: String
+        var WikipediaLogoUrl: String
+    }
     
     
     var livegames: [ReturnedGames] = []
     var standings: [Returned] = []
-    var teams: [Teams] = []
+    var teamslogo: [Teamslogo] = []
+    var players: [Players] = []
+    var team =  [Teams]()
     
-    
+    func getcurrentDate(){
+        let date = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MMM-dd"
+        currentDate = dateFormatter.string(from: date)
+    }
     
     func getLiveGames(completed: @escaping ()->()){
-        let urlString = "https://api.sportsdata.io/v3/nba/scores/json/GamesByDate/\("2015-APR-19")?key=5e6b9e63f405447dae1e7e39bbb02b3a"
+        let urlString = "https://api.sportsdata.io/v3/nba/scores/json/GamesByDate/\(self.currentDate)?key=5e6b9e63f405447dae1e7e39bbb02b3a"
         
         print ("We are accessing \(urlString)")
         
@@ -80,12 +102,12 @@ class Stats{
             }
             // Deal with data
             do{
-                self.livegames = try JSONDecoder().decode([ReturnedGames].self, from: data!)
-//                let decodedresponse = try JSONDecoder().decode([ReturnedGames].self, from: data!)
-//                let filteredresponse = decodedresponse.filter {$0.Conference == self.conferenceselected}
-//                DispatchQueue.main.async {
-//                    self.livegames = filteredresponse
-//                }
+                //self.livegames = try JSONDecoder().decode([ReturnedGames].self, from: data!)
+                let decodedresponse = try JSONDecoder().decode([ReturnedGames].self, from: data!)
+                let filteredresponse = decodedresponse.filter {$0.AwayTeamScore != nil}
+               DispatchQueue.main.async {
+                    self.livegames = filteredresponse
+                }
                 //print ("Here is what we got back \(self.standings)")
             }catch{
                 print ("JSON Error: \(error.localizedDescription)")
@@ -98,7 +120,7 @@ class Stats{
     func getstandingsData(completed: @escaping ()->()){
         let urlString = "https://api.sportsdata.io/v3/nba/scores/json/Standings/2022?key=5e6b9e63f405447dae1e7e39bbb02b3a"
         
-        print ("We are accessing \(urlString)")
+        //print ("We are accessing \(urlString)")
         
         
         guard let url = URL(string: urlString) else{
@@ -132,13 +154,86 @@ class Stats{
         task.resume()
     }
     
-    
-    
+    func getTeams(completed: @escaping ()->()){
+        let urlString = "https://api.sportsdata.io/v3/nba/scores/json/teams?key=5e6b9e63f405447dae1e7e39bbb02b3a"
+        
+        //print ("We are accessing \(urlString)")
+        
+        
+        guard let url = URL(string: urlString) else{
+            print ("Error: Could not create a URL from \(urlString)")
+            completed()
+            return
+        }
+        
+        // Create url session
+        
+        let session = URLSession.shared
+        
+        let task = session.dataTask(with: url) { data, response, error in
+            if let error = error{
+                print ("Error: \(error.localizedDescription)")
+            }
+            // Deal with data
+            do{
+                self.team = try JSONDecoder().decode([Teams].self, from: data!)
+                //let decodedresponse = try JSONDecoder().decode([Returned].self, from: data!)
+                //let filteredresponse = decodedresponse.filter {$0.Conference == self.conferenceselected}
+                //DispatchQueue.main.async {
+                //    self.standings = filteredresponse
+                //}
+                print ("Here is what we got back \(self.team)")
+            }catch{
+                print ("JSON Error: \(error.localizedDescription)")
+            }
+            
+            completed()
+        }
+        task.resume()
+    }
+
+    func getPlayersbyTeam(completed: @escaping ()->()){
+        let urlString = "https://api.sportsdata.io/v3/nba/scores/json/Players/\(self.chosenteam)?key=5e6b9e63f405447dae1e7e39bbb02b3a"
+        
+        //print ("We are accessing \(urlString)")
+        
+        
+        guard let url = URL(string: urlString) else{
+            print ("Error: Could not create a URL from \(urlString)")
+            completed()
+            return
+        }
+        
+        // Create url session
+        
+        let session = URLSession.shared
+        
+        let task = session.dataTask(with: url) { data, response, error in
+            if let error = error{
+                print ("Error: \(error.localizedDescription)")
+            }
+            // Deal with data
+            do{
+                self.players = try JSONDecoder().decode([Players].self, from: data!)
+                //let decodedresponse = try JSONDecoder().decode([Returned].self, from: data!)
+                //let filteredresponse = decodedresponse.filter {$0.Conference == self.conferenceselected}
+                //DispatchQueue.main.async {
+                //    self.standings = filteredresponse
+                //}
+                print ("Here is what we got back \(self.players)")
+            }catch{
+                print ("JSON Error: \(error.localizedDescription)")
+            }
+            
+            completed()
+        }
+        task.resume()
+    }
     func getTeamLogo(teamID: Int){
         
         let urlString = "https://api.sportsdata.io/v3/nba/scores/json/teams?key=5e6b9e63f405447dae1e7e39bbb02b3a"
         
-        print ("We are accessing \(urlString)")
+        //print ("We are accessing \(urlString)")
         
         
         guard let url = URL(string: urlString) else{
@@ -157,24 +252,23 @@ class Stats{
             // Deal with data
             do{
                 //self.standings = try JSONDecoder().decode([Returned].self, from: data!)
-                let decodedresponse = try JSONDecoder().decode([Teams].self, from: data!)
+                let decodedresponse = try JSONDecoder().decode([Teamslogo].self, from: data!)
                 let filteredresponse = decodedresponse.filter {$0.TeamID == teamID}
                 
                 DispatchQueue.main.async {
-                    self.teams = filteredresponse
-                    for team in self.teams{
+                    self.teamslogo = filteredresponse
+                    for team in self.teamslogo{
                         self.standingTeamlogoURL = team.WikipediaLogoUrl
                     }
                     //self.standingTeamlogoURL = filteredresponse
                 }
-                //print ("Here is what we got back \(self.standings)")
+                //print ("Here is what we got back \(self.teamslogos)")
             }catch{
                 print ("JSON Error: \(error.localizedDescription)")
             }
         }
         task.resume()
     }
-    
     
 }
 
