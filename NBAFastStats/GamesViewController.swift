@@ -75,6 +75,8 @@ extension GamesViewController: UITableViewDelegate, UITableViewDataSource {
            cell.gameStatusLabel?.text = "FINAL"
        }
     
+        cell.awayteamImage.image = UIImage(named: String(stats.livegames[indexPath.row].AwayTeamID))
+        cell.hometeamimage.image = UIImage(named: String(stats.livegames[indexPath.row].HomeTeamID))
 //
 //        stats.getTeamLogo(teamID: stats.standings[indexPath.row].TeamID)
 //        cell.logoImageView?.downloaded(from: stats.standingTeamlogoURL)

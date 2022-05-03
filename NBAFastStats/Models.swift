@@ -18,7 +18,7 @@ class Stats{
     @Published var conferenceselected = "Eastern"
     @Published var standingTeamlogoURL = ""
     @Published var currentDate = ""
-    @Published var ifanygames = false
+    @Published var ifanygames = true
     var chosenteam = "MIA"
     
     struct ReturnedGames: Codable{
@@ -30,6 +30,8 @@ class Stats{
         var TimeRemainingMinutes: Int?
         var TimeRemainingSeconds: Int?
         var Status: String?
+        var AwayTeamID: Int
+        var HomeTeamID: Int
     }
     
     struct Returned: Codable{
@@ -271,4 +273,5 @@ class Stats{
     }
     
 }
+
 

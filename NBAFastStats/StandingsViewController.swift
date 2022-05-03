@@ -91,12 +91,12 @@ extension StandingsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "standingsCell", for: indexPath) as! StandingsTableViewCell
         
-        cell.teamnameLabel?.text = stats.standings[indexPath.row].Name
-        cell.winsLabel?.text = String(stats.standings[indexPath.row].Wins)
-        cell.lossesLabel?.text = String(stats.standings[indexPath.row].Losses)
+        cell.teamnameLabel?.text = stats.standings[indexPath.row].Name.uppercased()
+        cell.winsLabel?.text = String(stats.standings[indexPath.row].Wins) + "-" + String(stats.standings[indexPath.row].Losses)
         
         //stats.getTeamLogo(teamID: stats.standings[indexPath.row].TeamID)
         //cell.logoImageView?.downloaded(from: stats.standingTeamlogoURL)
+        cell.logoImageView?.image = UIImage(named: String(stats.standings[indexPath.row].TeamID))
      
         return cell
     }
