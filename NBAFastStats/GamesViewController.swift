@@ -6,7 +6,8 @@
 //
 
 import UIKit
-
+import AVFoundation
+var audioPlayer: AVAudioPlayer!
 var minutesremains = ""
 
 
@@ -25,7 +26,7 @@ class GamesTableViewCell: UITableViewCell{
 }
 
 class GamesViewController: UIViewController {
-
+    
     @IBOutlet weak var GamesTableView: UITableView!
     
     var stats = Stats()
@@ -41,7 +42,12 @@ class GamesViewController: UIViewController {
                 self.GamesTableView.reloadData()
             }
         }
-        
+        if stats.livegames.isEmpty {
+            stats.ifanygames = false
+        }else{
+            stats.ifanygames = true
+        }
+        print(stats.ifanygames)
         // Do any additional setup after loading the view.
     }
 
@@ -50,9 +56,9 @@ class GamesViewController: UIViewController {
 extension GamesViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if (stats.ifanygames == false){
-            self.GamesTableView.isHidden = true
-        }
+        //if (stats.ifanygames == false){
+            //self.GamesTableView.isHidden = true
+        //}
         return stats.livegames.count
     }
     
@@ -77,11 +83,28 @@ extension GamesViewController: UITableViewDelegate, UITableViewDataSource {
     
         cell.awayteamImage.image = UIImage(named: String(stats.livegames[indexPath.row].AwayTeamID))
         cell.hometeamimage.image = UIImage(named: String(stats.livegames[indexPath.row].HomeTeamID))
-//
-//        stats.getTeamLogo(teamID: stats.standings[indexPath.row].TeamID)
-//        cell.logoImageView?.downloaded(from: stats.standingTeamlogoURL)
      
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = storyboard?.instantiateViewController(withIdentifier: "GameDetails") as? GameDetailsViewController
+        let pathToSound = Bundle.main.path(forResource: "mixkit-basketball-ball-hitting-the-net-2084", ofType: "wav")!
+        let url = URL(fileURLWithPath: pathToSound)
+        
+        do
+        {
+            audioPlayer = try AVAudioPlayer(contentsOf: url)
+            audioPlayer?.play()
+        }
+        catch
+        {
+            print (error)
+        }
+        ///vc. = String(stats.livegames[indexPath.row].GlobalGameID)
+        vc?.awayTeamID = stats.livegames[indexPath.row].AwayTeamID
+        vc?.homeTeamID = stats.livegames[indexPath.row].HomeTeamID
+        navigationController?.pushViewController(vc!, animated: true)
     }
 
 }

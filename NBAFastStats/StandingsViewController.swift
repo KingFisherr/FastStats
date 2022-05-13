@@ -18,6 +18,7 @@ class StandingsTableViewCell: UITableViewCell {
     
     @IBOutlet weak var winsLabel: UILabel!
     
+    // Combined with wins label
     @IBOutlet weak var lossesLabel: UILabel!
     
 }
@@ -27,6 +28,7 @@ class StandingsViewController: UIViewController {
 
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var tableView: UITableView!
+    var refreshControl = UIRefreshControl()
     
     // Var stats gets access to all vars and methods from games class
     // So we should call stats and call method stats.fetchgames, somewhere here we can modify the curr date for api endpoint call
@@ -40,6 +42,8 @@ class StandingsViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
+        refreshControl.addTarget(self, action: #selector(refresh), for: UIControl.Event.valueChanged)
+        tableView.addSubview(refreshControl)
         
         stats.getstandingsData {
             DispatchQueue.main.async { [self] in
@@ -48,6 +52,16 @@ class StandingsViewController: UIViewController {
                 print(self.stats.standingTeamlogoURL)
 
             }
+        }
+    }
+    
+    @objc func refresh(send: UIRefreshControl){
+        DispatchQueue.main.async {
+            self.stats.getstandingsData {
+
+            }
+            self.tableView.reloadData()
+            self.refreshControl.endRefreshing()
         }
     }
     
@@ -93,9 +107,6 @@ extension StandingsViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.teamnameLabel?.text = stats.standings[indexPath.row].Name.uppercased()
         cell.winsLabel?.text = String(stats.standings[indexPath.row].Wins) + "-" + String(stats.standings[indexPath.row].Losses)
-        
-        //stats.getTeamLogo(teamID: stats.standings[indexPath.row].TeamID)
-        //cell.logoImageView?.downloaded(from: stats.standingTeamlogoURL)
         cell.logoImageView?.image = UIImage(named: String(stats.standings[indexPath.row].TeamID))
      
         return cell

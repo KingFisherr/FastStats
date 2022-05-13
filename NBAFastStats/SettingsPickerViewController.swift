@@ -6,6 +6,8 @@
 //
 
 import UIKit
+let userDefaults = UserDefaults.standard
+
 
 protocol NewFavTeam{
     func passDataBack(data:String)
@@ -52,12 +54,13 @@ extension SettingsPickerViewController: UIPickerViewDelegate, UIPickerViewDataSo
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return stats.team[row].Name
+        return (stats.team[row].City + " " + stats.team[row].Name).uppercased()
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        let selectedteam = stats.team[row].Name
+        let selectedteam = (stats.team[row].City + " " + stats.team[row].Name).uppercased()
         teamPicked.text = selectedteam
+        userDefaults.set(stats.team[row].Key, forKey: "favTeam")
     }
     
 }

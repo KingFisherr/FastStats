@@ -4,7 +4,6 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -16,17 +15,27 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="NBA FASTSTATS" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qud-ml-Zm3">
-                                <rect key="frame" x="56" y="431" width="303" height="55"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="Screenshot 2022-05-07 at 17-56-41 Basketball Fire Images – Browse 14 866 Stock Photos Vectors and Video" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8zA-bb-Vuc">
+                                <rect key="frame" x="0.0" y="157" width="414" height="418"/>
+                            </imageView>
+                            <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="NBA FASTSTATS" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qud-ml-Zm3">
+                                <rect key="frame" x="56" y="583" width="303" height="56"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" name="AlNile-Bold" family="Al Nile" pointSize="34"/>
+                                <fontDescription key="fontDescription" name="AlNile-Bold" family="Al Nile" pointSize="35"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" systemColor="labelColor"/>
+                        <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="qud-ml-Zm3" secondAttribute="trailing" constant="55" id="EMo-em-Fck"/>
+                            <constraint firstItem="8zA-bb-Vuc" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="ITX-Iv-Bmp"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="qud-ml-Zm3" secondAttribute="bottom" constant="223" id="S9a-Tc-bBW"/>
+                            <constraint firstItem="8zA-bb-Vuc" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="ZtJ-m0-3UI"/>
+                            <constraint firstItem="8zA-bb-Vuc" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="113" id="ct6-Xh-t6b"/>
+                            <constraint firstItem="qud-ml-Zm3" firstAttribute="top" secondItem="8zA-bb-Vuc" secondAttribute="bottom" constant="8" symbolic="YES" id="d2c-jy-Dj3"/>
+                            <constraint firstItem="qud-ml-Zm3" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="56" id="ehd-HF-RTX"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -35,8 +44,6 @@
         </scene>
     </scenes>
     <resources>
-        <systemColor name="labelColor">
-            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
+        <image name="Screenshot 2022-05-07 at 17-56-41 Basketball Fire Images – Browse 14 866 Stock Photos Vectors and Video" width="1522" height="1050"/>
     </resources>
 </document>
