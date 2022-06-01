@@ -35,29 +35,38 @@ class GamesViewController: UIViewController {
         super.viewDidLoad()
         GamesTableView.delegate = self
         GamesTableView.dataSource = self
-        // check for live games, then update bool ifanygames var in models
         stats.getcurrentDate()
         stats.getLiveGames {
             DispatchQueue.main.async {
                 self.GamesTableView.reloadData()
+                // Checks if any live games are availiable
+                if self.stats.livegames.count > 0 {
+                    self.stats.ifanygames = true
+                }else{
+                    self.stats.ifanygames = false
+                }
+                // If none available show NO GAMES
+                if self.stats.ifanygames == false{
+                    self.GamesTableView.isHidden = true
+                }
             }
         }
-        if stats.livegames.isEmpty {
-            stats.ifanygames = false
-        }else{
-            stats.ifanygames = true
-        }
-        print(stats.ifanygames)
         // Do any additional setup after loading the view.
     }
-
+    override func viewWillAppear(_ animated: Bool) {
+        if let index = self.GamesTableView.indexPathForSelectedRow{
+            self.GamesTableView.deselectRow(at: index, animated: true)
+        }
+    }
+    
 }
+
 
 extension GamesViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //if (stats.ifanygames == false){
-            //self.GamesTableView.isHidden = true
+           // self.GamesTableView.isHidden = true
         //}
         return stats.livegames.count
     }
@@ -101,10 +110,20 @@ extension GamesViewController: UITableViewDelegate, UITableViewDataSource {
         {
             print (error)
         }
-        ///vc. = String(stats.livegames[indexPath.row].GlobalGameID)
         vc?.awayTeamID = stats.livegames[indexPath.row].AwayTeamID
         vc?.homeTeamID = stats.livegames[indexPath.row].HomeTeamID
+        vc?.awayTeamName = stats.livegames[indexPath.row].AwayTeam!
+        vc?.homeTeamName = stats.livegames[indexPath.row].HomeTeam ?? ""
         navigationController?.pushViewController(vc!, animated: true)
+    }
+    // Animation
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let rTransfrom = CATransform3DTranslate(CATransform3DIdentity, -500, 10, 0)
+        cell.layer.transform = rTransfrom
+        
+        UIView.animate(withDuration: 1.0){
+            cell.layer.transform = CATransform3DIdentity
+        }
     }
 
 }

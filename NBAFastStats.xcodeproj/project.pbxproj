@@ -11,7 +11,6 @@
 		9C6DC507281757DB00224387 /* GamesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6DC506281757DB00224387 /* GamesViewController.swift */; };
 		9C6DC509281C8B2100224387 /* SettingsPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6DC508281C8B2000224387 /* SettingsPickerViewController.swift */; };
 		9C6DC50D2823358000224387 /* mixkit-basketball-ball-hitting-the-net-2084.wav in Resources */ = {isa = PBXBuildFile; fileRef = 9C6DC50B2823357F00224387 /* mixkit-basketball-ball-hitting-the-net-2084.wav */; };
-		9C6DC50E2823358000224387 /* mixkit-catching-a-basketball-ball-2081.wav in Resources */ = {isa = PBXBuildFile; fileRef = 9C6DC50C2823357F00224387 /* mixkit-catching-a-basketball-ball-2081.wav */; };
 		9C9F9EF428138C20004026AD /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9F9EF328138C20004026AD /* SettingsViewController.swift */; };
 		9CE8B20327FA562700176E69 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE8B20227FA562700176E69 /* AppDelegate.swift */; };
 		9CE8B20527FA562700176E69 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE8B20427FA562700176E69 /* SceneDelegate.swift */; };
@@ -47,7 +46,6 @@
 		9C6DC506281757DB00224387 /* GamesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamesViewController.swift; sourceTree = "<group>"; };
 		9C6DC508281C8B2000224387 /* SettingsPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPickerViewController.swift; sourceTree = "<group>"; };
 		9C6DC50B2823357F00224387 /* mixkit-basketball-ball-hitting-the-net-2084.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "mixkit-basketball-ball-hitting-the-net-2084.wav"; sourceTree = "<group>"; };
-		9C6DC50C2823357F00224387 /* mixkit-catching-a-basketball-ball-2081.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "mixkit-catching-a-basketball-ball-2081.wav"; sourceTree = "<group>"; };
 		9C9F9EF328138C20004026AD /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		9CE8B1FF27FA562700176E69 /* NBAFastStats.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NBAFastStats.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CE8B20227FA562700176E69 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -93,7 +91,6 @@
 		9C6DC50A2823351000224387 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
-				9C6DC50C2823357F00224387 /* mixkit-catching-a-basketball-ball-2081.wav */,
 				9C6DC50B2823357F00224387 /* mixkit-basketball-ball-hitting-the-net-2084.wav */,
 			);
 			path = Sounds;
@@ -263,7 +260,6 @@
 				9C6DC50D2823358000224387 /* mixkit-basketball-ball-hitting-the-net-2084.wav in Resources */,
 				9CE8B20F27FA563D00176E69 /* LaunchScreen.storyboard in Resources */,
 				9CE8B20C27FA563D00176E69 /* Assets.xcassets in Resources */,
-				9C6DC50E2823358000224387 /* mixkit-catching-a-basketball-ball-2081.wav in Resources */,
 				9CE8B20A27FA562700176E69 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

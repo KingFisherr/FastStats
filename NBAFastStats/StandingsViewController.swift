@@ -3,8 +3,6 @@
 //  NBAFastStats
 //
 //  Created by Tahsin Provath on 4/3/22.
-// We need to add logo for each team
-// We need to sep east and west upon clicking of segmentcontrol
 
 
 import UIKit
@@ -30,10 +28,6 @@ class StandingsViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     var refreshControl = UIRefreshControl()
     
-    // Var stats gets access to all vars and methods from games class
-    // So we should call stats and call method stats.fetchgames, somewhere here we can modify the curr date for api endpoint call
-    
-    
     var stats = Stats()
     
     override func viewDidLoad() {
@@ -49,7 +43,6 @@ class StandingsViewController: UIViewController {
             DispatchQueue.main.async { [self] in
                 //self.tableView.reloadData()
                 self.sortbyconference()
-                print(self.stats.standingTeamlogoURL)
 
             }
         }
@@ -92,7 +85,6 @@ class StandingsViewController: UIViewController {
     @IBAction func segmentPressed(_ sender: UISegmentedControl) {
         sortbyconference()
     }
-    
 }
 
 
@@ -111,6 +103,15 @@ extension StandingsViewController: UITableViewDelegate, UITableViewDataSource {
      
         return cell
     }
-
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let rTransfrom = CATransform3DTranslate(CATransform3DIdentity, 0, 75, 0)
+        cell.layer.transform = rTransfrom
+        cell.alpha = 0.5
+        
+        UIView.animate(withDuration: 0.7){
+            cell.layer.transform = CATransform3DIdentity
+            cell.alpha = 1.0
+        }
+    }
 }
 

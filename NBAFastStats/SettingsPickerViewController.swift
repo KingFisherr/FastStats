@@ -8,7 +8,7 @@
 import UIKit
 let userDefaults = UserDefaults.standard
 
-
+// Delegate passes back new team
 protocol NewFavTeam{
     func passDataBack(data:String)
 }

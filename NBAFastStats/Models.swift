@@ -10,14 +10,26 @@ import Foundation
 
 class Stats{
     
+    // stores segment selected standings
     @Published var conferenceselected = "Eastern"
+    // For asset number
     @Published var standingTeamlogoURL = ""
+    // Stores current date
     @Published var currentDate = ""
+    // Stores if ReturnedGames array is empty or not
     @Published var ifanygames = true
+    // Stores selected team for stats of fav team
     @Published var chosenteam = ""
+    // Stores segment selected game details
     @Published var selectedTeam = 0
+    // Stores selected team for headshots
+    @Published var headshotselectedteam = ""
+    
     let userDefaults = UserDefaults.standard
-
+    
+    // UPDATE IF TRIAL OVER
+    var key = "d47e9c7c07774ad2b29650c8a04aed6f"
+    
     struct ReturnedGames: Codable{
         var AwayTeam: String?
         var HomeTeam: String?
@@ -33,13 +45,21 @@ class Stats{
     
     struct GameDetailsByTeam: Codable{
         var TeamID: Int
+        var PlayerID: Int
+        var Opponent: String
+        var Minutes: Int
+        var Team: String
         var Name: String
         var FantasyPoints: Double?
         var Points: Double?
         var Rebounds: Double?
         var Assists: Double?
     }
-
+    
+    struct PlayerHeadshots:Codable{
+        var PlayerID: Int
+        var PhotoUrl: String
+    }
     
     struct Returned: Codable{
         var TeamID: Int
@@ -87,15 +107,17 @@ class Stats{
         var WikipediaLogoUrl: String
     }
     
-    
     var livegames: [ReturnedGames] = []
     var gamedetailsbyteam: [GameDetailsByTeam] = []
+    var playerheadshots: [PlayerHeadshots] = []
     var standings: [Returned] = []
     var players: [Players] = []
     var team =  [Teams]()
     var teamstats: [TeamStats] = []
     var teaminfo: [TeamInfo] = []
     
+    
+    // returns current date in x format
     func getcurrentDate(){
         let date = Date()
         let dateFormatter = DateFormatter()
@@ -103,24 +125,23 @@ class Stats{
         currentDate = dateFormatter.string(from: date)
     }
     
+    // returns whole number percent
     func getWholePercentage(made: Double, attempted: Double) -> String{
         let intodecimal = (made / attempted).truncatingRemainder(dividingBy: 1.0)
         let intopercentage = Int(intodecimal * 100.0)
         let intostring = String(intopercentage)
         return intostring
     }
+    //https://api.sportsdata.io/v3/nba/scores/json/AreAnyGamesInProgress?key=d47e9c7c07774ad2b29650c8a04aed6f
     
-    
-    func checkForLiveGames(){
-        // Call api to check if any live games are currently on
-        // Return bool to ifanygames var
-    }
-    
-    func getLiveGames(completed: @escaping ()->()){
-        print (userDefaults.string(forKey: "favTeam"))
 
-        let urlString = "https://api.sportsdata.io/v3/nba/scores/json/GamesByDate/\(self.currentDate)?key=5e6b9e63f405447dae1e7e39bbb02b3a"
-        //let urlString = "https://api.sportsdata.io/v3/nba/scores/json/GamesByDate/\("2022-May-11")?key=5e6b9e63f405447dae1e7e39bbb02b3a"
+    
+    // Returns live games by current date
+    func getLiveGames(completed: @escaping ()->()){
+        //print (userDefaults.string(forKey: "favTeam"))
+
+        //let urlString = "https://api.sportsdata.io/v3/nba/scores/json/GamesByDate/\(self.currentDate)?key=\(self.key)"
+        let urlString = "https://api.sportsdata.io/v3/nba/scores/json/GamesByDate/\("2022-APR-25")?key=\(self.key)"
         print ("We are accessing \(urlString)")
         
         
@@ -140,7 +161,6 @@ class Stats{
             }
             // Deal with data
             do{
-                //self.livegames = try JSONDecoder().decode([ReturnedGames].self, from: data!)
                 let decodedresponse = try JSONDecoder().decode([ReturnedGames].self, from: data!)
                 let filteredresponse = decodedresponse.filter {$0.AwayTeamScore != nil}
                DispatchQueue.main.async {
@@ -155,9 +175,12 @@ class Stats{
         task.resume()
     }
     
+    // Returns player stats for a game
     func getGameDetailsByTeam(completed: @escaping ()->()){
-        let urlString = "https://api.sportsdata.io/v3/nba/stats/json/PlayerGameStatsByDate/\(self.currentDate)?key=5e6b9e63f405447dae1e7e39bbb02b3a"
-      
+        //let urlString = "https://api.sportsdata.io/v3/nba/stats/json/PlayerGameStatsByDate/\(self.currentDate)?key=\(self.key)"
+        
+        // FOR TESTING
+        let urlString = "https://api.sportsdata.io/v3/nba/stats/json/PlayerGameStatsByDate/\("2022-APR-25")?key=\(self.key)"
         print ("We are accessing \(urlString)")
         
         guard let url = URL(string: urlString) else{
@@ -191,9 +214,51 @@ class Stats{
         task.resume()
     }
     
+    // Returns headshots for a team
+    func getPlayersHeadShotsByTeam(completed: @escaping ()->()){
+        
+        let urlString = "https://api.sportsdata.io/v3/nba/scores/json/Players/\(self.headshotselectedteam)?key=\(self.key)"
+        
+        //print ("We are accessing \(urlString)")
+        
+        
+        guard let url = URL(string: urlString) else{
+            print ("Error: Could not create a URL from \(urlString)")
+            completed()
+            return
+        }
+        
+        // Create url session
+        
+        let session = URLSession.shared
+        
+        let task = session.dataTask(with: url) { data, response, error in
+            if let error = error{
+                print ("Error: \(error.localizedDescription)")
+            }
+            // Deal with data
+            do{
+
+                self.playerheadshots = try JSONDecoder().decode([PlayerHeadshots].self, from: data!)
+//                let decodedresponse = try JSONDecoder().decode([PlayerHeadshots].self, from: data!)
+//                let filteredresponse = decodedresponse.filter {$0.Name == self.conferenceselected}
+//                DispatchQueue.main.async {
+//                    let filteredresponse = filteredresponse.sorted(by:{$0.Wins > $1.Wins})
+//                    self.standings = filteredresponse
+//                }
+                //print ("Here is what we got back \(self.players)")
+            }catch{
+            print ("JSON Error: \(error.localizedDescription)")
+            }
+            
+            completed()
+        }
+        task.resume()
+    }
     
+    // Returns standing data
     func getstandingsData(completed: @escaping ()->()){
-        let urlString = "https://api.sportsdata.io/v3/nba/scores/json/Standings/2022?key=5e6b9e63f405447dae1e7e39bbb02b3a"
+        let urlString = "https://api.sportsdata.io/v3/nba/scores/json/Standings/2022?key=\(self.key)"
         
         //print ("We are accessing \(urlString)")
         
@@ -232,8 +297,9 @@ class Stats{
         task.resume()
     }
     
+    // Returns all teams
     func getTeams(completed: @escaping ()->()){
-        let urlString = "https://api.sportsdata.io/v3/nba/scores/json/teams?key=5e6b9e63f405447dae1e7e39bbb02b3a"
+        let urlString = "https://api.sportsdata.io/v3/nba/scores/json/teams?key=\(self.key)"
         
         //print ("We are accessing \(urlString)")
         
@@ -260,7 +326,7 @@ class Stats{
                 //DispatchQueue.main.async {
                 //    self.standings = filteredresponse
                 //}
-                print ("Here is what we got back \(self.team)")
+                //print ("Here is what we got back \(self.team)")
             }catch{
                 print ("JSON Error: \(error.localizedDescription)")
             }
@@ -270,11 +336,12 @@ class Stats{
         task.resume()
     }
 
-    func getPlayersbyTeam(completed: @escaping ()->()){
+    // Returns player by saved team
+    func getPlayersBySavedTeam(completed: @escaping ()->()){
         
-        let favTeam = userDefaults.string(forKey: "favTeam")!
-        //let urlString = "https://api.sportsdata.io/v3/nba/scores/json/Players/\(self.chosenteam)?key=5e6b9e63f405447dae1e7e39bbb02b3a"
-        let urlString = "https://api.sportsdata.io/v3/nba/scores/json/Players/\(favTeam)?key=5e6b9e63f405447dae1e7e39bbb02b3a"
+        let favTeam = userDefaults.string(forKey: "favTeam") ?? "MIA"
+        //let urlString = "https://api.sportsdata.io/v3/nba/scores/json/Players/\(self.chosenteam)?key=\(self.key)"
+        let urlString = "https://api.sportsdata.io/v3/nba/scores/json/Players/\(favTeam)?key=\(self.key)"
         //print ("We are accessing \(urlString)")
         
         
@@ -305,10 +372,11 @@ class Stats{
         task.resume()
     }
     
+    // Returns stars for a saved fav team
     func getTeamStats(completed: @escaping ()->()){
-        let urlString = "https://api.sportsdata.io/v3/nba/scores/json/TeamSeasonStats/2022?key=5e6b9e63f405447dae1e7e39bbb02b3a"
+        let urlString = "https://api.sportsdata.io/v3/nba/scores/json/TeamSeasonStats/2022?key=\(self.key)"
         
-        let favTeam = userDefaults.string(forKey: "favTeam")!
+        let favTeam = userDefaults.string(forKey: "favTeam") ?? "MIA"
 
         print (favTeam)
         //print ("We are accessing \(urlString)")
@@ -343,12 +411,13 @@ class Stats{
         task.resume()
     }
     
-    func getTeamInfo(completed: @escaping ()->()){
+    //Get team info by saved team
+    func getTeamInfoBySavedTeam(completed: @escaping ()->()){
         
-        let urlString = "https://api.sportsdata.io/v3/nba/scores/json/teams?key=5e6b9e63f405447dae1e7e39bbb02b3a"
-        
-        let favTeam = userDefaults.string(forKey: "favTeam")!
+        let favTeam = userDefaults.string(forKey: "favTeam") ?? "MIA"
 
+        let urlString = "https://api.sportsdata.io/v3/nba/scores/json/teams?key=\(self.key)"
+        
         //print ("We are accessing \(urlString)")
         
         
@@ -375,7 +444,7 @@ class Stats{
                 DispatchQueue.main.async {
                     self.teaminfo = filteredresponse
                 }
-                print ("Here is what we got back \(self.teaminfo)")
+                //print ("Here is what we got back \(self.teaminfo)")
             }catch{
                 print ("JSON Error: \(error.localizedDescription)")
             }
